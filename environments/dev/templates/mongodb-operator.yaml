@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: mongodb
+  name: mongodb-operator
   namespace: argocd
   finalizers:
   - resources-finalizer.argocd.argoproj.io
@@ -11,9 +11,14 @@ spec:
     namespace: mongodb
   project: {{ .Values.spec.project }}
   source:
-    path: platform-apps/mongodb
-    repoURL: {{ .Values.spec.source.repoURL }}
-    targetRevision: {{ .Values.spec.source.targetRevision }}
+    chart: community-operator
+    repoURL: https://mongodb.github.io/helm-charts
+    targetRevision: 0.9.0
+    helm:
+      releaseName: mongodb-operator
+      values: |
+        database:
+          name: iptoolkits
   syncPolicy:
     {{ toYaml .Values.spec.defaultSyncOptions | nindent 8 }}
     {{ toYaml .Values.spec.defaultAutomated | nindent 8 }}
