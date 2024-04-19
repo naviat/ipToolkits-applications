@@ -88,8 +88,8 @@ affinity: {}
 secrets:
   enabled: true
   name: db-secrets
-  # MONGO_URI: "mongodb://mongodb-standalone.mongodb:27017/iptoolkits"
-  mongo: bW9uZ29kYjovL21vbmdvZGItc3RhbmRhbG9uZS5tb25nb2RiOjI3MDE3L2lwdG9vbGtpdHM=
+  # MONGO_URI: "mongodb://mongodb-standalone.mongodb.svc.cluster.local:27017/iptoolkits"
+  mongo: "bW9uZ29kYjovL21vbmdvZGItc3RhbmRhbG9uZS5tb25nb2RiLnN2Yy5jbHVzdGVyLmxvY2FsOjI3MDE3L2lwdG9vbGtpdHM="
 
 config:
   name: ip-configs
