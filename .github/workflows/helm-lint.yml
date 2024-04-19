@@ -15,6 +15,9 @@ on:
 jobs:
   helm-check:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: write
     steps:
 
       - name: Install packages
