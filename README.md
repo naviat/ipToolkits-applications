@@ -1,5 +1,10 @@
 # ArgoCD - ipToolkits
 
+![helm lint](https://github.com/naviat/ipToolkits-applications/actions/workflows/helm-lint.yml/badge.svg)
+![helm lint](https://github.com/naviat/ipToolkits-applications/actions/workflows/yaml-lint.yml/badge.svg)
+![helm lint](https://github.com/naviat/ipToolkits-applications/actions/workflows/json-lint.yml/badge.svg)
+
+
 ## Overview
 
 This repository contains the Argo CD deployment configurations for the ipToolkits project. It includes all the necessary YAML files and Kubernetes manifests to manage and automate the deployment process of our application using Argo CD.
