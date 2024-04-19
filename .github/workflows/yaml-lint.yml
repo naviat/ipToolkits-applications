@@ -1,3 +1,4 @@
+---
 name: Yaml Lint
 
 on:
@@ -5,8 +6,8 @@ on:
     branches:
       - main
     paths:
-      - .github/**
-      - environments/**
+      - '.github/**'
+      - 'environments/**'
     types:
       - opened
       - reopened
@@ -14,22 +15,25 @@ on:
 
 jobs:
   yaml-check:
-    runs-on: ubuntu:latest
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: write
     steps:
 
       - name: Install packages
         run: |
-          apt update
-          apt install -y git
-          apt install -y yamllint
+          sudo apt update
+          sudo apt install -y git
+          sudo apt install -y yamllint
 
-      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
+      - uses: actions/checkout@master
         with:
           fetch-depth: 0
 
       - name: Get changed files
         id: changed-files
-        uses: tj-actions/changed-files@8238a4103220c636f2dad328ead8a7c8dbe316a3 # v39.2.0
+        uses: tj-actions/changed-files@main
         with:
           files: |
             .github/**
