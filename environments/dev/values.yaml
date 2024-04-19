@@ -16,7 +16,7 @@ spec:
         maxDuration: 3m
 
   defaultAutomated:
-    automated: {}
+    automated:
       selfHeal: true
       prune: true
       allowEmpty: true
