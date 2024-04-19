@@ -1,0 +1,8 @@
+helm:
+  parameters:
+  - name: image.name
+    value: naviat/iptoolkits
+    forcestring: true
+  - name: image.tag
+    value: dev.2a7fee373cfda33e3800f31c813d59ba7ffa964f
+    forcestring: true
