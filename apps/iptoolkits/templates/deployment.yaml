@@ -47,8 +47,12 @@ spec:
           envFrom:
             - configMapRef:
                 name: {{ .Values.config.name }}
-            - secretRef:
-                name: {{ .Values.secrets.name }}
+          env:
+            - name: MONGO_URI
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secrets.name }}
+                  key: MONGO_URI
           livenessProbe:
             {{- toYaml .Values.livenessProbe | nindent 12 }}
           readinessProbe:
