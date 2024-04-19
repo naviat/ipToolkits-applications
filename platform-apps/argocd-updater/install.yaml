@@ -72,7 +72,7 @@ data:
       - name: Docker Hub
         prefix: docker.io
         api_url: https://index.docker.io
-        credentials: secret:argocd/regcred
+        credentials: secret:argocd/regcred#.dockerconfigjson
         ping: yes
         default: true
 ---
