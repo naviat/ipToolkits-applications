@@ -49,10 +49,11 @@ spec:
                 name: {{ .Values.config.name }}
           env:
             - name: MONGO_URI
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.secrets.name }}
-                  key: MONGO_URI
+              value: "mongodb://mongodb-standalone.mongodb.svc.cluster.local:27017/iptoolkits" # try to test
+              # valueFrom:
+              #   secretKeyRef:
+              #     name: {{ .Values.secrets.name }}
+              #     key: MONGO_URI
           livenessProbe:
             {{- toYaml .Values.livenessProbe | nindent 12 }}
           readinessProbe:
