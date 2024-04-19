@@ -22,9 +22,9 @@ jobs:
 
       - name: Install packages
         run: |
-          apt update
-          apt install -y git
-          apt install -y yamllint
+          sudo apt update
+          sudo apt install -y git
+          sudo apt install -y yamllint
 
       - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
         with:
