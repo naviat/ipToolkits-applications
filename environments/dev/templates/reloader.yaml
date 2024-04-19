@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: reloader-{{ .Values.spec.env }}
+  namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    server: {{ .Values.spec.destination.server }}
+    namespace: mongodb
+  project: {{ .Values.spec.project }}
+  source:
+    chart: reloader
+    repoURL: https://stakater.github.io/stakater-charts
+    targetRevision: 1.0.80
+    helm:
+      releaseName: reloader-{{ .Values.spec.env }}
+  syncPolicy:
+    {{ toYaml .Values.spec.defaultSyncOptions | nindent 8 }}
+    {{ toYaml .Values.spec.defaultAutomated | nindent 8 }}
+    {{ toYaml .Values.spec.defaultRetry | nindent 8 }}
