@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.config.name }}
+  labels:
+    {{- include "iptoolkits.labels" . | nindent 4 }}
+data:
+  {{- range $key, $value := .Values.config.vars }}
+    {{ $key }}: {{ $value | quote }}
+  {{- end }}
