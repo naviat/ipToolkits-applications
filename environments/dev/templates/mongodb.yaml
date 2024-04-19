@@ -11,7 +11,7 @@ spec:
     namespace: mongodb
   project: {{ .Values.spec.project }}
   source:
-    chart: bitnami/mongodb
+    chart: mongodb
     repoURL: https://charts.bitnami.com/bitnami
     targetRevision: 15.1.4
     helm:
