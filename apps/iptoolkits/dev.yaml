@@ -1,0 +1,185 @@
+---
+# Source: iptoolkits/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: test-iptoolkits
+  labels:
+    helm.sh/chart: iptoolkits-0.1.0
+    app.kubernetes.io/name: iptoolkits
+    app.kubernetes.io/instance: test
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+automountServiceAccountToken: true
+---
+# Source: iptoolkits/templates/secrets.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: db-secrets
+  labels:
+    helm.sh/chart: iptoolkits-0.1.0
+    app.kubernetes.io/name: iptoolkits
+    app.kubernetes.io/instance: test
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+type: Opaque
+data:
+  MONGO_URI:
+---
+# Source: iptoolkits/templates/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ip-configs
+  labels:
+    helm.sh/chart: iptoolkits-0.1.0
+    app.kubernetes.io/name: iptoolkits
+    app.kubernetes.io/instance: test
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+data:
+    KUBERNETES: "true"
+    PORT: "3000"
+---
+# Source: iptoolkits/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: test-iptoolkits
+  labels:
+    helm.sh/chart: iptoolkits-0.1.0
+    app.kubernetes.io/name: iptoolkits
+    app.kubernetes.io/instance: test
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 3000
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: iptoolkits
+    app.kubernetes.io/instance: test
+---
+# Source: iptoolkits/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-iptoolkits
+  labels:
+    helm.sh/chart: iptoolkits-0.1.0
+    app.kubernetes.io/name: iptoolkits
+    app.kubernetes.io/instance: test
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: iptoolkits
+      app.kubernetes.io/instance: test
+  template:
+    metadata:
+      labels:
+        helm.sh/chart: iptoolkits-0.1.0
+        app.kubernetes.io/name: iptoolkits
+        app.kubernetes.io/instance: test
+        app.kubernetes.io/version: "1.16.0"
+        app.kubernetes.io/managed-by: Helm
+    spec:
+      serviceAccountName: test-iptoolkits
+      securityContext:
+        {}
+      containers:
+        - name: iptoolkits
+          securityContext:
+            {}
+          image: "naviat/iptoolkits:$IMAGE_TAG"
+          imagePullPolicy: "IfNotPresent"
+          ports:
+            - name: http
+              containerPort: 3000
+              protocol: TCP
+          envFrom:
+            - configMapRef:
+                name: ip-configs
+            - secretRef:
+                name: db-secrets
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 15
+            successThreshold: 1
+            timeoutSeconds: 5
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 15
+            successThreshold: 1
+            timeoutSeconds: 5
+          resources:
+            limits:
+              cpu: 100m
+              memory: 128Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+---
+# Source: iptoolkits/templates/hpa.yaml
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: test-iptoolkits
+  labels:
+    helm.sh/chart: iptoolkits-0.1.0
+    app.kubernetes.io/name: iptoolkits
+    app.kubernetes.io/instance: test
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: test-iptoolkits
+  minReplicas: 1
+  maxReplicas: 10
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 80
+---
+# Source: iptoolkits/templates/ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: test-iptoolkits
+  labels:
+    helm.sh/chart: iptoolkits-0.1.0
+    app.kubernetes.io/name: iptoolkits
+    app.kubernetes.io/instance: test
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: "iptoolkits.localhost"
+      http:
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: test-iptoolkits
+                port:
+                  number: 3000

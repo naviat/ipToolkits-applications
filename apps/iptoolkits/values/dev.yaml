@@ -88,7 +88,7 @@ affinity: {}
 secrets:
   enabled: true
   name: db-secrets
-  monogo: bW9uZ29kYjovL21vbmdvZGI6MjcwMTcvaXB0b29sa2l0cw==
+  mongo: bW9uZ29kYjovL21vbmdvZGI6MjcwMTcvaXB0b29sa2l0cw==
 
 config:
   name: ip-configs
