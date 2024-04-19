@@ -23,7 +23,7 @@ spec:
           repository: zcube/bitnami-compat-mongodb
           tag: 6.0.5
         extraEnvVars:
-          - name: "EXPERIMENTAL_DOCKER_DESKTOP_FORCE_QEMU"
+          - name: EXPERIMENTAL_DOCKER_DESKTOP_FORCE_QEMU
             value: "1"
   syncPolicy:
     {{ toYaml .Values.spec.defaultSyncOptions | nindent 8 }}
