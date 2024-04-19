@@ -13,7 +13,7 @@ spec:
   source:
     chart: mongodb
     repoURL: https://charts.bitnami.com/bitnami
-    targetRevision: 15.1.4
+    targetRevision: 15.1.3
     helm:
       releaseName: mongodb-standalone
       values: |
