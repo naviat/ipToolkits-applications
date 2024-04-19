@@ -11,7 +11,7 @@ spec:
     namespace: mongodb
   project: {{ .Values.spec.project }}
   source:
-    chart: mongodb/community-operator
+    chart: community-operator
     repoURL: https://mongodb.github.io/helm-charts
     targetRevision: 0.9.0
     helm:
