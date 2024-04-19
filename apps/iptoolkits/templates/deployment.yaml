@@ -4,6 +4,10 @@ metadata:
   name: {{ include "iptoolkits.fullname" . }}
   labels:
     {{- include "iptoolkits.labels" . | nindent 4 }}
+  {{- if .Values.reloader.enabled }}
+  annotations:
+    reloader.stakater.com/auto: "true"
+  {{- end }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
