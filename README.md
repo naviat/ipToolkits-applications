@@ -4,6 +4,9 @@
 
 This repository contains the Argo CD deployment configurations for the ipToolkits project. It includes all the necessary YAML files and Kubernetes manifests to manage and automate the deployment process of our application using Argo CD.
 
+> [!IMPORTANT]
+> Most of componets was provisioned by terraform in `infras/terraform/modules` from [ipToolkits](https://github.com/naviat/ipToolkits/tree/main/infras/terraform/modules) repo.
+
 ## Prerequisites
 
 - Kubernetes cluster
