@@ -1,0 +1,28 @@
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+  source:
+    repoURL: https://github.com/naviat/ipToolkits-applications
+    targetRevision: HEAD
+  env: dev
+  project: default
+
+  defaultRetry:
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
+
+  defaultAutomated:
+    automated: {}
+      selfHeal: true
+      prune: true
+      allowEmpty: true
+
+  defaultSyncOptions:
+    syncOptions:
+      - CreateNamespace=true
+      - Validate=true
+      - ServerSideApply=true

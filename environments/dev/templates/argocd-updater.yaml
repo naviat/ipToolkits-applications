@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argocd-updater
+  namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    server: {{ .Values.spec.destination.server }}
+    namespace: argocd
+  project: {{ .Values.spec.project }}
+  source:
+    path: platform-apps/argocd-updater
+    repoURL: {{ .Values.spec.source.repoURL }}
+    targetRevision: {{ .Values.spec.source.targetRevision }}
+  syncPolicy:
+    {{ toYaml .Values.spec.defaultSyncOptions | nindent 8 }}
+    {{ toYaml .Values.spec.defaultAutomated | nindent 8 }}
+    {{ toYaml .Values.spec.defaultRetry | nindent 8 }}

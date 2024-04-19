@@ -1,0 +1,35 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: iptoolkits-{{ .Values.spec.env }}
+  namespace: {{ .Values.argoNamespace | default "argocd" }}
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+  annotations:
+    argocd-image-updater.argoproj.io/allow-tags: regexp:^dev\.(.*)
+    argocd-image-updater.argoproj.io/credsexpire: 10h
+    argocd-image-updater.argoproj.io/helm.image-name: image.repository
+    argocd-image-updater.argoproj.io/helm.image-tag: image.tag
+    argocd-image-updater.argoproj.io/git-branch: main
+    argocd-image-updater.argoproj.io/image-list: naviat/iptoolkits
+    argocd-image-updater.argoproj.io/pull-secret: ext:/scripts/ecr.sh
+    argocd-image-updater.argoproj.io/update-strategy: latest
+    argocd-image-updater.argoproj.io/write-back-method: git:secret:argocd/git-creds
+    argocd.argoproj.io/manifest-generate-paths: /apps/iptoolkits
+spec:
+  destination:
+    server: {{ .Values.spec.destination.server }}
+    namespace: iptoolkits-{{ .Values.spec.env }}
+  project: {{ .Values.spec.project }}
+  source:
+    path: apps/iptoolkits
+    repoURL: {{ .Values.spec.source.repoURL }}
+    targetRevision: {{ .Values.spec.source.targetRevision }}
+    helm:
+      valueFiles:
+        - values/{{ .Values.spec.env }}.yaml
+      releaseName: iptoolkits
+  syncPolicy:
+    {{ toYaml .Values.spec.defaultSyncOptions | nindent 8 }}
+    {{ toYaml .Values.spec.defaultAutomated | nindent 8 }}
+    {{ toYaml .Values.spec.defaultRetry | nindent 8 }}
