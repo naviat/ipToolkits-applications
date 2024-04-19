@@ -19,6 +19,9 @@ spec:
       values: |
         auth:
           enabled: false
+        image:
+          repository: zcube/bitnami-compat-mongodb
+          tag: 6.0.5
   syncPolicy:
     {{ toYaml .Values.spec.defaultSyncOptions | nindent 8 }}
     {{ toYaml .Values.spec.defaultAutomated | nindent 8 }}
