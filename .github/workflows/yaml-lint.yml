@@ -14,7 +14,7 @@ on:
 
 jobs:
   yaml-check:
-    runs-on: ubuntu:latest
+    runs-on: ubuntu-latest
     steps:
 
       - name: Install packages
