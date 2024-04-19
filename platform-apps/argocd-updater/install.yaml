@@ -221,7 +221,7 @@ spec:
           name: argocd-image-updater-ssh-config
           optional: true
         name: ssh-config
-      - configMap:
-          defaultMode: 0777
-          name: argocd-image-updater-authscripts
-        name: authscripts
+      # - configMap:
+      #     defaultMode: 0777
+      #     name: argocd-image-updater-authscripts
+      #   name: authscripts
