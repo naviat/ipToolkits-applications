@@ -4,5 +4,5 @@ helm:
     value: naviat/iptoolkits
     forcestring: true
   - name: image.tag
-    value: dev.4e2d6e186a592767f89c73c90dd8133341091c19
+    value: dev.ce947f941cdf0321d1e4558521f6562b4c320fa6
     forcestring: true
